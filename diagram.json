@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "author": "Anonymous maker",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": -268.2, "left": -259.8, "attrs": {} },
+    {
+      "type": "wokwi-neopixel",
+      "id": "rgb1",
+      "top": -300.1,
+      "left": 37.6,
+      "rotate": 180,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-neopixel",
+      "id": "rgb2",
+      "top": -313.1,
+      "left": -20,
+      "rotate": 180,
+      "attrs": {}
+    }
+  ],
+  "connections": [
+    [ "rgb2:DOUT", "rgb1:DIN", "green", [ "h0" ] ],
+    [ "uno:4", "rgb2:DIN", "green", [ "v0" ] ],
+    [ "uno:5V", "rgb2:VDD", "red", [ "v0" ] ],
+    [ "uno:GND.2", "rgb2:VSS", "black", [ "v0" ] ]
+  ],
+  "dependencies": {}
+}
