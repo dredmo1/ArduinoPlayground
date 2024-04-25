@@ -2,18 +2,25 @@
 #include <FastLED.h>
 
 #define RUNS 20
-#define NUM_LEDS 2160
+#define NUM_LEDS 1440
 #define NUM_LEDS_PER_STRIP 72
 #define NUM_LEDS_PER_SEGMENT 360
 
 // Define the data pins for the LED strips
 #define DP_1 7
+#define DP_2 8
+#define DP_3 9
+#define DP_4 10
 // Define the LED strip type
 #define LED_TYPE WS2812B
 // Define the color order of the LED strip
 #define COLOR_ORDER GRB
 
 CRGB leds[NUM_LEDS];
+CRGB leds1[NUM_LEDS_PER_SEGMENT];
+CRGB leds2[NUM_LEDS_PER_SEGMENT];
+CRGB leds3[NUM_LEDS_PER_SEGMENT];
+CRGB leds4[NUM_LEDS_PER_SEGMENT];
 
 const bool DEBUG_MODE = false;
 
@@ -26,7 +33,10 @@ void setup() {
     Serial.begin(9600);
   }
   // Initialize the LED strip
-  FastLED.addLeds<LED_TYPE, DP_1, COLOR_ORDER>(leds, NUM_LEDS);
+  FastLED.addLeds<LED_TYPE, DP_1, COLOR_ORDER>(leds1, NUM_LEDS_PER_SEGMENT);
+  FastLED.addLeds<LED_TYPE, DP_2, COLOR_ORDER>(leds2, NUM_LEDS_PER_SEGMENT);
+  FastLED.addLeds<LED_TYPE, DP_3, COLOR_ORDER>(leds3, NUM_LEDS_PER_SEGMENT);
+  FastLED.addLeds<LED_TYPE, DP_4, COLOR_ORDER>(leds4, NUM_LEDS_PER_SEGMENT);
   FastLED.setMaxRefreshRate(0);
   FastLED.clear();
 
@@ -40,11 +50,22 @@ void setup() {
 void rainbowChase() {
   static uint8_t startIndex = 0;
   startIndex += 10; /* motion speed */
+  // for (int i = 0; i < NUM_LEDS; i++) {
+  //   leds[i] = CHSV((startIndex + (i * 2)), 255, 255);
+  // }
 
   // Iterate all LEDs to create a rainbow chase effect, do the different pins in parralel.
-  for (int i = 0; i < NUM_LEDS; i++) {
-    leds[i] = CHSV((startIndex + (i * 2)), 255, 255);
+  for (int i = 0; i < NUM_LEDS_PER_SEGMENT; i++) {
+    leds1[i] = CHSV((startIndex + (i * 2)), 255, 255);
+    leds2[i] = CHSV((startIndex + (i * 2)), 255, 255);
+    leds3[i] = CHSV((startIndex + (i * 2)), 255, 255);
+    leds4[i] = CHSV((startIndex + (i * 2)), 255, 255);
   }
+
+
+  //fill_rainbow(leds, NUM_LEDS, startIndex, 10);
+  FastLED.show();
+  //delay(1000 / 600); /* frame rate */
   delay(1); /* frame rate */
 }
 

@@ -40,11 +40,19 @@ void setup() {
 void rainbowChase() {
   static uint8_t startIndex = 0;
   startIndex += 10; /* motion speed */
+  // for (int i = 0; i < NUM_LEDS; i++) {
+  //   leds[i] = CHSV((startIndex + (i * 2)), 255, 255);
+  // }
 
   // Iterate all LEDs to create a rainbow chase effect, do the different pins in parralel.
   for (int i = 0; i < NUM_LEDS; i++) {
     leds[i] = CHSV((startIndex + (i * 2)), 255, 255);
   }
+
+
+  //fill_rainbow(leds, NUM_LEDS, startIndex, 10);
+  //FastLED.show();
+  //delay(1000 / 600); /* frame rate */
   delay(1); /* frame rate */
 }
 
