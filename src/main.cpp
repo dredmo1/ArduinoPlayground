@@ -86,13 +86,7 @@ void whiteBreathingChase() {
 }
 
 void loop() {
-  // Fill the LED strip with a solid color
-  // fill_solid(leds, NUM_LEDS, CRGB::Red);
-  //  Show the updated LED colors
-  //leds[0] = CRGB::Green;
-  //leds[0] = CRGB::Black;
   FastLED.show();
-
   selectMode();
 }
 
