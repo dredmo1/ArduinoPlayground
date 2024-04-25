@@ -2,7 +2,7 @@
 #include <FastLED.h>
 
 #define RUNS 20
-#define NUM_LEDS 1440
+#define NUM_LEDS 2160
 #define NUM_LEDS_PER_STRIP 72
 #define NUM_LEDS_PER_SEGMENT 360
 
@@ -11,6 +11,9 @@
 #define DP_2 8
 #define DP_3 9
 #define DP_4 10
+#define DP_5 11
+#define DP_6 12
+#define DP_7 13
 // Define the LED strip type
 #define LED_TYPE WS2812B
 // Define the color order of the LED strip
@@ -21,6 +24,9 @@ CRGB leds1[NUM_LEDS_PER_SEGMENT];
 CRGB leds2[NUM_LEDS_PER_SEGMENT];
 CRGB leds3[NUM_LEDS_PER_SEGMENT];
 CRGB leds4[NUM_LEDS_PER_SEGMENT];
+CRGB leds5[NUM_LEDS_PER_SEGMENT];
+CRGB leds6[NUM_LEDS_PER_SEGMENT];
+CRGB leds7[NUM_LEDS_PER_SEGMENT];
 
 const bool DEBUG_MODE = false;
 
@@ -37,6 +43,9 @@ void setup() {
   FastLED.addLeds<LED_TYPE, DP_2, COLOR_ORDER>(leds2, NUM_LEDS_PER_SEGMENT);
   FastLED.addLeds<LED_TYPE, DP_3, COLOR_ORDER>(leds3, NUM_LEDS_PER_SEGMENT);
   FastLED.addLeds<LED_TYPE, DP_4, COLOR_ORDER>(leds4, NUM_LEDS_PER_SEGMENT);
+  FastLED.addLeds<LED_TYPE, DP_5, COLOR_ORDER>(leds5, NUM_LEDS_PER_SEGMENT);
+  FastLED.addLeds<LED_TYPE, DP_6, COLOR_ORDER>(leds6, NUM_LEDS_PER_SEGMENT);
+  FastLED.addLeds<LED_TYPE, DP_7, COLOR_ORDER>(leds7, NUM_LEDS_PER_SEGMENT);
   FastLED.setMaxRefreshRate(0);
   FastLED.clear();
 
@@ -60,6 +69,9 @@ void rainbowChase() {
     leds2[i] = CHSV((startIndex + (i * 2)), 255, 255);
     leds3[i] = CHSV((startIndex + (i * 2)), 255, 255);
     leds4[i] = CHSV((startIndex + (i * 2)), 255, 255);
+    leds5[i] = CHSV((startIndex + (i * 2)), 255, 255);
+    leds6[i] = CHSV((startIndex + (i * 2)), 255, 255);
+    leds7[i] = CHSV((startIndex + (i * 2)), 255, 255);
   }
 
 
@@ -106,11 +118,6 @@ void whiteBreathingChase() {
 }
 
 void loop() {
-  // Fill the LED strip with a solid color
-  // fill_solid(leds, NUM_LEDS, CRGB::Red);
-  //  Show the updated LED colors
-  //leds[0] = CRGB::Green;
-  //leds[0] = CRGB::Black;
   FastLED.show();
 
   selectMode();
