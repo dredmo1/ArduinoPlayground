@@ -4,9 +4,9 @@
 You can use whatever you want, I'd recommend downloading the Arduino IDE as it has some good examples with it,
 but for actual dev work I find VSCode with PlatformIO add-on better to work with.
 
-- Official Arduino IDE
-- Visual Studio Code
-  - Then search for PlatformIO in extensions.
+- [Official Arduino IDE](https://www.arduino.cc/en/software)
+- [Visual Studio Code](https://code.visualstudio.com/)
+  - Then search for [PlatformIO](https://platformio.org/) in extensions.
 
 ## Simulation
 We can simulate the lighting setup using [wokwi.com](https://www.wokwi.com). It's free to start an account and you can create multiple projects.
@@ -33,4 +33,12 @@ There are two files you need to run the project, currently they are `main_parall
 
 ![Kapture 2024-04-26 at 09 15 08](https://github.com/ConorGarry/ArduinoPlayground/assets/6222596/f462a347-72d3-42c8-bbd7-b6267ed3380b)
 
+_Note: Due to the scale of the project, you'll need to zoom in and out a lot to see a close-up for the schema and to flick the switches._
+
+At this point, you'll see it's running the default mode (0) which is the `rainbowChase()` function.
+
+## TODO:
+- Switches.
+- Adding new functions.
+- Resources.
 
