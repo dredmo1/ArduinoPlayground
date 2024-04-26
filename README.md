@@ -31,5 +31,6 @@ There are two files you need to run the project, currently they are `main_parall
 3. Copy all the code from [diagram_parallel.json](https://github.com/ConorGarry/ArduinoPlayground/blob/main/diagram_parallel.json) into the `diagram.json` tab in Wokwi.
 4. Press the play icon in the simulator. You should see something like this:
 
+![Kapture 2024-04-26 at 09 15 08](https://github.com/ConorGarry/ArduinoPlayground/assets/6222596/f462a347-72d3-42c8-bbd7-b6267ed3380b)
 
 
