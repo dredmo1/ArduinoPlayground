@@ -41,10 +41,20 @@ At this point, you'll see it's running the default mode (0) which is the `rainbo
 There are 5 on/off state switches for selecing the 32 (5^2) different modes.
 The simulator uses slide switches, which have simple persisted on/off states, on = 1, off = 0, the real-life model will use same principle.
 
-<switches>
+<img width="330" alt="Screenshot 2024-04-26 at 17 59 34" src="https://github.com/ConorGarry/ArduinoPlayground/assets/6222596/6ab3674e-ffe4-40d1-9913-c9ce0abdef77">  
 
-<switch-on>
-<switch-off>
+_5 Switches in sequence, representing 5 binary digits._
+
+
+<img width="79" alt="Screenshot 2024-04-26 at 17 59 40" src="https://github.com/ConorGarry/ArduinoPlayground/assets/6222596/9655d0b6-bd6e-4abe-8392-2d4061ac535c">  
+
+_Switch in *off* position, or `0` value_
+
+
+<img width="69" alt="Screenshot 2024-04-26 at 17 59 49" src="https://github.com/ConorGarry/ArduinoPlayground/assets/6222596/4c7a6031-4fad-43d2-b564-185ec64131cd">  
+
+_Switch in *on* position, or `1` value_
+
 
 Using this pattern, we can use the switches to represent a 5 digit binary number. So to select between the first four (because at time of writing this there are four patterns), the switches would be set accordingly:
 
