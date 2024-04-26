@@ -27,7 +27,7 @@ CRGB leds6[NUM_LEDS_PER_SEGMENT];
 
 const bool DEBUG_MODE = false;
 
-const int switchPins[] = {2, 3, 4, 5, 6}; // Pins connected to the switches
+const int switchPins[] = {6, 5, 4, 3, 2}; // Pins connected to the switches
 
 int mode = 0;
 
@@ -69,6 +69,83 @@ void rainbowChase() {
   //delay(1); /* frame rate */
 }
 
+// Randomise LEDS flying from edge to edge in multiple ares, with a trail behind.
+// Optinally pass in a colour value. If left blank, colour will be randomised.
+void multipleTrails(CRGB trailColor = CRGB::Black) {
+  static int tailLength = 10; // Adjust the length of the tail
+  static int shootingSpeed = 50; // Adjust the speed of the shooting effect
+  static unsigned long lastUpdateTime = 0;
+  static int currentPosition = 0;
+
+  // Update the shooting effect
+  if (millis() - lastUpdateTime >= shootingSpeed) {
+    // Move the shooting LED position
+    currentPosition += 8;
+
+    // If LED reaches the end, reset to start
+    if (currentPosition >= NUM_LEDS_PER_SEGMENT) {
+      currentPosition = 0;
+    }
+
+    CRGB tc = trailColor != CRGB::Black ? trailColor : CHSV(random(255), 255, 255);
+    // Turn off the previous tail LEDs
+    for (int i = 1; i <= tailLength; i++) {
+      int tailPosition = currentPosition - i;
+      if (tailPosition >= 0) {
+        for (int segment = 0; segment < RUNS; segment++) {
+          switch (segment) {
+            case 0:
+              leds1[tailPosition] = tc;
+              break;
+            case 1:
+              leds2[tailPosition] = tc;
+              break;
+            case 2:
+              leds3[tailPosition] = tc;
+              break;
+            case 3:
+              leds4[tailPosition] = tc;
+              break;
+            case 4:
+              leds5[tailPosition] = tc;
+              break;
+            default:
+              break;
+          }
+        }
+      }
+    }
+
+    // Turn on the shooting LED
+    for (int segment = 0; segment < RUNS; segment++) {
+      switch (segment) {
+        case 0:
+          leds1[currentPosition] = CRGB::White;
+          break;
+        case 1:
+          leds2[currentPosition] = CRGB::White;
+          break;
+        case 2:
+          leds3[currentPosition] = CRGB::White;
+          break;
+        case 3:
+          leds4[currentPosition] = CRGB::White;
+          break;
+        case 4:
+          leds5[currentPosition] = CRGB::White;
+          break;
+        default:
+          break;
+      }
+    }
+
+    // Show the updated LEDs
+    FastLED.show();
+
+    lastUpdateTime = millis();
+  }
+}
+
 void loop() {
   FastLED.show();
   selectMode();
@@ -99,10 +176,22 @@ void selectMode() {
     rainbowChase();
     break;
   case 1:
-    //whiteBreathingChase();
+    multipleTrails();
+    break;
+  case 2:
+    multipleTrails(CRGB::Red);
+    break;
+  case 3:
+    multipleTrails(CRGB::Green);
+    break;
+  case 4:
+    multipleTrails(CRGB::Blue);
     break;
   // Add the rest 2..31 as needed.
   default:
     break;
   }
 }
+
+
+
