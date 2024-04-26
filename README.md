@@ -37,8 +37,31 @@ _Note: Due to the scale of the project, you'll need to zoom in and out a lot to 
 
 At this point, you'll see it's running the default mode (0) which is the `rainbowChase()` function.
 
+## Switches (be trippin')
+There are 5 on/off state switches for selecing the 32 (5^2) different modes.
+The simulator uses slide switches, which have simple persisted on/off states, on = 1, off = 0, the real-life model will use same principle.
+
+<switches>
+
+<switch-on>
+<switch-off>
+
+Using this pattern, we can use the switches to represent a 5 digit binary number. So to select between the first four (because at time of writing this there are four patterns), the switches would be set accordingly:
+
+|Binary Value| Mode |
+|-|-|
+|`00000`|`0`|
+|`00001`|`1`|
+|`00010`|`2`|
+|`00011`|`3`|
+|`00100`|`4`|
+
+- The switches are only toggleable when the simulator is running, they won't change when it is paused.
+- If the simulator has been stopped, the state will be persisted, i.e. next time you press play, it will resume with the most recent pattern you had selected.
+- The switches are quite small, so you'll be zooming in and out a lot, get used to whatever shortcut you use for that, be it keyboard or touchpad.
+
+
 ## TODO:
-- Switches.
 - Adding new functions.
 - Resources.
 
