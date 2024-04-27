@@ -222,8 +222,8 @@ switch (mode) {
 
 Setting the switches to `000101` will now light up the segments in the different colours.
 This is static, so it won't animate, but it's a good starting point to get used to the codebase and how to access the different segments.
-<image>
 
+<img width="837" alt="Screenshot 2024-04-27 at 10 26 40" src="https://github.com/ConorGarry/ArduinoPlayground/assets/6222596/45f50572-b8f7-4c31-b442-de2e5795af01">
 
 
 ## Resources
