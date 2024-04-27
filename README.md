@@ -228,4 +228,4 @@ This is static, so it won't animate, but it's a good starting point to get used 
 
 ## Resources
 - [FastLed documentation](http://fastled.io/docs/)
-- [FastLED basics YouTube Tutorial Series](https://www.youtube.com/watch?v=4Ut4UK7612M&list=PLgXkGn3BBAGi5dTOCuEwrLuFtfz0kGFTC) <- I **highly** recommend this! He's a great tutor, explains everything ver well.
+- [FastLED basics YouTube Tutorial Series](https://www.youtube.com/watch?v=4Ut4UK7612M&list=PLgXkGn3BBAGi5dTOCuEwrLuFtfz0kGFTC) <- I **highly** recommend this! He's a great tutor, explains everything very well.
