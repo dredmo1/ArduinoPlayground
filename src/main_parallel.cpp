@@ -172,24 +172,24 @@ void selectMode() {
 
   FastLED.clear();
   switch (mode) {
-  case 0:
-    rainbowChase();
-    break;
-  case 1:
-    multipleTrails();
-    break;
-  case 2:
-    multipleTrails(CRGB::Red);
-    break;
-  case 3:
-    multipleTrails(CRGB::Green);
-    break;
-  case 4:
-    multipleTrails(CRGB::Blue);
-    break;
-  // Add the rest 2..31 as needed.
-  default:
-    break;
+    case 0:
+      rainbowChase();
+      break;
+    case 1:
+      multipleTrails();
+      break;
+    case 2:
+      multipleTrails(CRGB::Red);
+      break;
+    case 3:
+      multipleTrails(CRGB::Green);
+      break;
+    case 4:
+      multipleTrails(CRGB::Blue);
+      break;
+    // Add the rest of the case n..31 as needed.
+    default:
+      break;
   }
 }
 
