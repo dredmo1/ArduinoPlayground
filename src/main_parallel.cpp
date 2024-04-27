@@ -29,7 +29,7 @@ const bool DEBUG_MODE = false;
 
 const int switchPins[] = {6, 5, 4, 3, 2}; // Pins connected to the switches
 
-int mode = 0;
+int pattern = 0;
 
 void setup() {
   if (DEBUG_MODE) {
@@ -148,10 +148,10 @@ void multipleTrails(CRGB trailColor = CRGB::Black) {
 
 void loop() {
   FastLED.show();
-  selectMode();
+  selectPattern();
 }
 
-void selectMode() {
+void selectPattern() {
   // Read the state of each switch and calculate the binary value
   int binaryValue = 0;
   for (int i = 0; i < 5; i++) {
@@ -159,19 +159,19 @@ void selectMode() {
   }
 
   // Convert binary value to decimal mode
-  mode = binaryValue;
+  pattern = binaryValue;
 
   // Print the mode value to the Serial Monitor
   if (DEBUG_MODE) {
     Serial.print("Mode: ");
-    Serial.print(mode);
+    Serial.print(pattern);
     Serial.print(" (Binary: ");
-    Serial.print(mode, BIN);
+    Serial.print(pattern, BIN);
     Serial.println(")");
   }
 
   FastLED.clear();
-  switch (mode) {
+  switch (pattern) {
     case 0:
       rainbowChase();
       break;
