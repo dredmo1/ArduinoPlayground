@@ -8,6 +8,8 @@ but for actual dev work I find VSCode with PlatformIO add-on better to work with
 - [Visual Studio Code](https://code.visualstudio.com/)
   - Then search for [PlatformIO](https://platformio.org/) in extensions.
 
+[FastLED Library](https://fastled.io/) is the C++ library we're using to control the LEDs, you can install it through the Arduino IDE or PlatformIO.
+
 ## Simulation
 We can simulate the lighting setup using [wokwi.com](https://www.wokwi.com). It's free to start an account and you can create multiple projects.
 Chrome is recommended over other browsers as apparently it yields the best performance. It is quite resource-heavy so I'd recommend closing any applications and tabs that are not being used to free up memory and processing power for the simulator.
@@ -70,8 +72,159 @@ Using this pattern, we can use the switches to represent a 5 digit binary number
 - If the simulator has been stopped, the state will be persisted, i.e. next time you press play, it will resume with the most recent pattern you had selected.
 - The switches are quite small, so you'll be zooming in and out a lot, get used to whatever shortcut you use for that, be it keyboard or touchpad.
 
+## Contributing Changes
+First of all, have a read of the code, specifically the `switch` statement in the `selectMode()` function. This is what is run on every loop. It reads in the switch states and converts it to a number between `0` and `31` inclusive. A change of a switch will trigger this to select a different number, and subsequently a different function.
+
+```cpp
+switch (mode) {
+    case 0:
+      rainbowChase();
+      break;
+    case 1:
+      multipleTrails();
+      break;
+    case 2:
+      multipleTrails(CRGB::Red);
+      break;
+    case 3:
+      multipleTrails(CRGB::Green);
+      break;
+    case 4:
+      multipleTrails(CRGB::Blue);
+      break;
+    // Add the rest of the case n..31 as needed.
+    default:
+      break;
+  }
+```
+
+To add a new function, you'll need to add a new case to the `switch` statement, and then create the function. Let's say you want to create `rgbChase()` which will chase the RGB colours in sequence.
+
+```cpp
+void rgbChase() {
+  // Your code here
+}
+```
+
+```cpp
+switch (mode) {
+    // ... cases 0-4 removed for brevity.
+    case 5:
+      rgbChase();
+      break;
+    default:
+      break;
+  }
+```
+
+Now when you select `000101` (`5`) on the switches, it will run the `rgbChase()` function.
+
+- Functions have to be declared before they are used, so if you're adding a new function, make sure it's above the `selectMode` statement.
+- For readability, it's best to keep the functions in the same order as the cases in the `switch` statement.
+- Given that there will eventually be 32 functions, I'll probably look to moving them to a different file and using imports, which will clean up this main file. (Though I'm not sure if wokwi supports multiple files yet).
+
+## Implementing a Function/Pattern
+_"Pattern" and "function" are interchangeable terms, "Pattern" is what we'd refer to in real-life, "function" is a programming way of defining a body of work, in this case, a "pattern"._
+
+### Code Overview
+Before adding your pattern, take a look at what the code is already doing in the setup. Here's an overview:
+
+```c
+#define RUNS 30
+#define NUM_LEDS 2160
+#define NUM_LEDS_PER_STRIP 72
+#define NUM_LEDS_PER_SEGMENT 360
+```
+This simply defines the constants for the number of LEDs in the setup. Pretty self-explanatory. They will come in handy when you're writing your pattern.
+
+
+```c
+// Define the data pins for the LED strips
+#define DP_1 7
+#define DP_2 8
+#define DP_3 9
+#define DP_4 10
+#define DP_5 11
+#define DP_6 12
+```
+This defines the data pins (hence **DP**) for the LED strips. Due to limited resources on the micro controllers, we can't simply have one long array for every LED, so we have to use **parallel output** technique where we split them in separate segments and control them in parallel. In our case, seeing as we have **30** runs, we have **6** segments of **5** runs each.
+The pins are in sequence, so `DP_1` is the first segment, `DP_2` is the second, etc.
+
+Note that this is based on Arduino, which is not the microcontroller we're using, but it will be the same principle, only the number values may differ in the final implementation. It'll still be six data pins in sequence.
+
+
+```cpp
+CRGB leds1[NUM_LEDS_PER_SEGMENT];
+CRGB leds2[NUM_LEDS_PER_SEGMENT];
+CRGB leds3[NUM_LEDS_PER_SEGMENT];
+CRGB leds4[NUM_LEDS_PER_SEGMENT];
+CRGB leds5[NUM_LEDS_PER_SEGMENT];
+CRGB leds6[NUM_LEDS_PER_SEGMENT];
+```
+This defines the arrays for the LEDs in each segment. Each segment has 360 LEDs, so we have an array of 360 LEDs for each segment. This is where you'll be writing your patterns to.
+CRGB is a struct from the FastLED library, which is used to define the colour of the LEDs. It has three values, `r`, `g`, and `b`, which are the red, green, and blue values respectively. Each value is between 0 and 255, so a colour is defined by three numbers. So `leds1` for example, is an array of 360 LEDs, each with a colour defined by three numbers contained in the CRGB.
+
+```cpp
+void setup() {
+  // Initialize the LED strip
+  FastLED.addLeds<LED_TYPE, DP_1, COLOR_ORDER>(leds1, NUM_LEDS_PER_SEGMENT);
+  FastLED.addLeds<LED_TYPE, DP_2, COLOR_ORDER>(leds2, NUM_LEDS_PER_SEGMENT);
+  FastLED.addLeds<LED_TYPE, DP_3, COLOR_ORDER>(leds3, NUM_LEDS_PER_SEGMENT);
+  FastLED.addLeds<LED_TYPE, DP_4, COLOR_ORDER>(leds4, NUM_LEDS_PER_SEGMENT);
+  FastLED.addLeds<LED_TYPE, DP_5, COLOR_ORDER>(leds5, NUM_LEDS_PER_SEGMENT);
+  FastLED.addLeds<LED_TYPE, DP_6, COLOR_ORDER>(leds6, NUM_LEDS_PER_SEGMENT);
+  FastLED.setMaxRefreshRate(0);
+  FastLED.clear();
+}
+```
+The `setup()` function is only run once when the program starts. It initializes the LED strips and sets the refresh rate to 0, which means it will run as fast as possible. It also clears the LEDs, so they are all off when the program starts.
+
+It also adds the leds to the FastLED library, which is what controls the LEDs (saving us **a lot** of complexity). The `addLeds` function takes the type of LED, the data pin, the colour order, the array of LEDs, and the number of LEDs in the array. The `LED_TYPE` and `COLOR_ORDER` are defined elsewhere in the code, but you don't need to worry about them, they're just settings for the FastLED library.
+
+```cpp
+void loop() {
+  FastLED.show();
+  selectPattern();
+}
+```
+The loop function is run continuously, it shows the LEDs (i.e. updates them with the new colours) and then runs the `selectPattern()` function, which is the `switch` statement we talked about earlier.  
+
+---
+
+As a simple demonstration, here's a non-animated pattern that lights up the different segments in red, green, blue, yellow, purple, and white.
+
+```cpp
+void rgbypwSegments() {
+  // Iterate all segments and light up the LEDs with different colours.
+  for (int i = 0; i < NUM_LEDS_PER_SEGMENT; i++) {
+    leds1[i] = CRGB::Red;
+    leds2[i] = CRGB::Green;
+    leds3[i] = CRGB::Blue;
+    leds4[i] = CRGB::Yellow;
+    leds5[i] = CRGB::Purple;
+    leds6[i] = CRGB::White;
+  }
+  FastLED.show();
+}
+```
+Then placed in the `switch` statement:
+
+```cpp
+switch (mode) {
+    // ... cases 0-4 removed for brevity.
+    case 5:
+      rgbypwSegments();
+      break;
+    default:
+      break;
+  }
+```
+
+Setting the switches to `000101` will now light up the segments in the different colours.
+This is static, so it won't animate, but it's a good starting point to get used to the codebase and how to access the different segments.
+<image>
+
 
 ## TODO:
-- Adding new functions.
 - Resources.
 
