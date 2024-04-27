@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#define RUNS 20
+#define RUNS 30
 #define NUM_LEDS 2160
 #define NUM_LEDS_PER_STRIP 72
 #define NUM_LEDS_PER_SEGMENT 360
@@ -13,6 +13,7 @@
 #define DP_4 10
 #define DP_5 11
 #define DP_6 12
+
 // Define the LED strip type
 #define LED_TYPE WS2812B
 // Define the color order of the LED strip
