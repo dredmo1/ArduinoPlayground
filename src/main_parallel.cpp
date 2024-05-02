@@ -1,3 +1,4 @@
+
 #include <Arduino.h>
 #include <FastLED.h>
 
@@ -147,6 +148,31 @@ void multipleTrails(CRGB trailColor = CRGB::Black) {
   }
 }
 
+// Alternate between colours of Palestine Flag.
+// Colours used are from official flag colour palette values but they look totally off on simulator.
+void blinkPalestine() {
+    for (int i = 0; i < NUM_LEDS_PER_SEGMENT; i++) {
+     leds1[i] = leds2[i] = leds3[i] = leds4[i] = leds5[i] = leds6[i] = CRGB(228,49,43);//::Red;
+    }
+  FastLED.show();
+  delay(500);
+   for (int i = 0; i < NUM_LEDS_PER_SEGMENT; i++) {
+    leds1[i] = leds2[i] = leds3[i] = leds4[i] = leds5[i] = leds6[i] =  CRGB::Black;
+   }
+  FastLED.show();
+  delay(500);
+   for (int i = 0; i < NUM_LEDS_PER_SEGMENT; i++) {
+    leds1[i] = leds2[i] = leds3[i] = leds4[i] = leds5[i] = leds6[i] =  CRGB::White;
+   }
+  FastLED.show();
+  delay(500);  
+   for (int i = 0; i < NUM_LEDS_PER_SEGMENT; i++) {
+    leds1[i] = leds2[i] = leds3[i] = leds4[i] = leds5[i] = leds6[i] =  CRGB(20,153,84);//0x149954;
+   }
+  FastLED.show();
+  delay(500);  
+}
+
 void loop() {
   FastLED.show();
   selectPattern();
@@ -189,10 +215,10 @@ void selectPattern() {
       multipleTrails(CRGB::Blue);
       break;
     // Add the rest of the case n..31 as needed.
+    case 5:
+      blinkPalestine();
+      break;
     default:
       break;
   }
 }
-
-
-
